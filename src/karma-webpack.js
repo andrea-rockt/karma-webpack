@@ -49,7 +49,7 @@ function Plugin(
     // https://github.com/webpack/webpack/issues/645
     webpackOptions.output.path = '/_karma_webpack_/' + indexPath
     webpackOptions.output.publicPath = '/_karma_webpack_/' + publicPath
-    webpackOptions.output.filename = '[name]'
+    webpackOptions.output.filename = '[name].js'
     if (includeIndex) {
       webpackOptions.output.jsonpFunction = 'webpackJsonp' + index
     }
@@ -193,6 +193,10 @@ Plugin.prototype.make = function(compilation, callback) {
 Plugin.prototype.readFile = function(file, callback) {
   var middleware = this.middleware
   var optionsCount = this.optionsCount
+
+  if (file.substr(-3) !== '.js') {
+    file += '.js'
+  }
 
   var doRead = function() {
     if (optionsCount > 1) {
